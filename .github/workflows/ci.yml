@@ -18,17 +18,27 @@ permissions:
 
 jobs:
   build-server:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-latest
+            arch: amd64
+            platform: linux/amd64
+          - runner: ubuntu-24.04-arm
+            arch: arm64
+            platform: linux/arm64
     steps:
       - name: Build docker
         uses: meysam81/build-docker@main
         with:
           context: ./server
           image-extra-tags: |
-            ghcr.io/${{ github.repository }}/ente-server:${{ github.event.repository.pushed_at }}
-            ghcr.io/${{ github.repository }}/ente-server:${{ github.run_id }}
-            ghcr.io/${{ github.repository }}/ente-server:latest
+            ghcr.io/${{ github.repository }}/ente-server:${{ github.event.repository.pushed_at }}-${{ matrix.arch }}
+            ghcr.io/${{ github.repository }}/ente-server:${{ github.run_id }}-${{ matrix.arch }}
           image-name: ghcr.io/${{ github.repository }}/ente-server
           kubescape: true
           kubescape-upload-sarif: true
+          platform: ${{ matrix.platform }}
           repository: ente-io/ente
