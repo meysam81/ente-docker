@@ -23,7 +23,7 @@ jobs:
       - name: Build docker
         uses: meysam81/build-docker@main
         with:
-          context: ente/server
+          context: ./server
           image-extra-tags: |
             ghcr.io/${{ github.repository }}/ente-server:${{ github.event.repository.pushed_at }}
             ghcr.io/${{ github.repository }}/ente-server:${{ github.run_id }}
