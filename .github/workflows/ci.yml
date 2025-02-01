@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   build-server:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-latest
     steps:
       - name: Build docker
         uses: meysam81/build-docker@main
