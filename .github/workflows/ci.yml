@@ -44,3 +44,27 @@ jobs:
           kubescape-upload-sarif: true
           platforms: ${{ matrix.platform }}
           repository: ente-io/ente
+
+  build-web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare the Dockerfile
+        run: |
+          curl -sLo /tmpDockerfile 'https://raw.githubusercontent.com/meysam81/ente-docker/refs/heads/main/web/Dockerfile'
+      - name: Build docker
+        uses: meysam81/build-docker@main
+        with:
+          build-args: |
+            NEXT_PUBLIC_ENTE_ENDPOINT=${{ secrets.NEXT_PUBLIC_ENTE_ENDPOINT }}
+            NEXT_PUBLIC_ENTE_ALBUMS_ENDPOINT=${{ secrets.NEXT_PUBLIC_ENTE_ALBUMS_ENDPOINT }}
+          context: ./web
+          cosign: true
+          dockerfile: /tmp/Dockerfile
+          image-extra-tags: |
+            ghcr.io/${{ github.repository }}/ente-web:${{ github.event.repository.pushed_at }}
+            ghcr.io/${{ github.repository }}/ente-web:${{ github.run_id }}
+          image-name: ghcr.io/${{ github.repository }}/ente-web
+          kubescape: true
+          kubescape-upload-sarif: true
+          repository: ente-io/ente
+          submodules: recursive
