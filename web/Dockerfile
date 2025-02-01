@@ -11,8 +11,7 @@ ARG NEXT_PUBLIC_ENTE_ALBUMS_ENDPOINT
 ENV NEXT_PUBLIC_ENTE_ENDPOINT=${NEXT_PUBLIC_ENTE_ENDPOINT}
 ENV NEXT_PUBLIC_ENTE_ALBUMS_ENDPOINT=${NEXT_PUBLIC_ENTE_ALBUMS_ENDPOINT}
 
-RUN corepack enable && \
-    bun i git://github.com/dimsemenov/photoswipe#v5-beta && \
+RUN bun i git://github.com/dimsemenov/photoswipe#v5-beta && \
     bun i
 
 FROM builder AS build-accounts
