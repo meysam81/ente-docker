@@ -50,7 +50,7 @@ jobs:
     steps:
       - name: Prepare the Dockerfile
         run: |
-          curl -sLo /tmpDockerfile 'https://raw.githubusercontent.com/meysam81/ente-docker/refs/heads/main/web/Dockerfile'
+          curl -fLo /tmp/Dockerfile 'https://raw.githubusercontent.com/meysam81/ente-docker/refs/heads/main/web/Dockerfile'
       - name: Build docker
         uses: meysam81/build-docker@main
         with:
