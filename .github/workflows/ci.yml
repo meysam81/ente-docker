@@ -47,6 +47,14 @@ jobs:
 
   build-web:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - accounts
+          - auth
+          - cast
+          - photos
     steps:
       - name: Prepare the Dockerfile
         run: |
@@ -61,10 +69,11 @@ jobs:
           cosign: true
           dockerfile: /tmp/Dockerfile
           image-extra-tags: |
-            ghcr.io/${{ github.repository }}/ente-web:${{ github.event.repository.pushed_at }}
-            ghcr.io/${{ github.repository }}/ente-web:${{ github.run_id }}
+            ghcr.io/${{ github.repository }}/ente-web:${{ github.event.repository.pushed_at }}-${{ matrix.target }}
+            ghcr.io/${{ github.repository }}/ente-web:${{ github.run_id }}-${{ matrix.target }}
           image-name: ghcr.io/${{ github.repository }}/ente-web
           kubescape: true
           kubescape-upload-sarif: true
           repository: ente-io/ente
           submodules: recursive
+          target: ${{ matrix.target }}

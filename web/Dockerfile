@@ -1,4 +1,4 @@
-FROM oven/bun:1 AS builder
+FROM node:bookworm-slim AS builder
 
 WORKDIR /ente
 
@@ -11,20 +11,21 @@ ARG NEXT_PUBLIC_ENTE_ALBUMS_ENDPOINT
 ENV NEXT_PUBLIC_ENTE_ENDPOINT=${NEXT_PUBLIC_ENTE_ENDPOINT}
 ENV NEXT_PUBLIC_ENTE_ALBUMS_ENDPOINT=${NEXT_PUBLIC_ENTE_ALBUMS_ENDPOINT}
 
-RUN bun i git://github.com/dimsemenov/photoswipe#v5-beta && \
-    bun i
+RUN corepack enable && \
+    yarn cache clean && \
+    yarn install --network-timeout 1000000000
 
 FROM builder AS build-accounts
-RUN bun run build:accounts
+RUN yarn build:accounts
 
 FROM builder AS build-auth
-RUN bun run build:auth
+RUN yarn build:auth
 
 FROM builder AS build-cast
-RUN bun run build:cast
+RUN yarn build:cast
 
 FROM builder AS build-photos
-RUN bun run build:photos
+RUN yarn build:photos
 
 FROM ghcr.io/static-web-server/static-web-server:2 AS base-static
 EXPOSE 8080
