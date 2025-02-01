@@ -58,7 +58,7 @@ jobs:
     steps:
       - name: Prepare the Dockerfile
         run: |
-          curl -fLo /tmp/Dockerfile 'https://raw.githubusercontent.com/meysam81/ente-docker/refs/heads/main/web/Dockerfile'
+          curl -sfL 'https://raw.githubusercontent.com/meysam81/ente-docker/refs/heads/main/web/Dockerfile' | tee /tmp/Dockerfile
       - name: Build docker
         uses: meysam81/build-docker@main
         with:
@@ -69,9 +69,9 @@ jobs:
           cosign: true
           dockerfile: /tmp/Dockerfile
           image-extra-tags: |
-            ghcr.io/${{ github.repository }}/ente-web:${{ github.event.repository.pushed_at }}-${{ matrix.target }}
-            ghcr.io/${{ github.repository }}/ente-web:${{ github.run_id }}-${{ matrix.target }}
-          image-name: ghcr.io/${{ github.repository }}/ente-web
+            ghcr.io/${{ github.repository }}/ente-${{ matrix.target }}:${{ github.event.repository.pushed_at }}
+            ghcr.io/${{ github.repository }}/ente-${{ matrix.target }}:${{ github.run_id }}
+          image-name: ghcr.io/${{ github.repository }}/ente-${{ matrix.target }}
           kubescape: true
           kubescape-upload-sarif: true
           repository: ente-io/ente
