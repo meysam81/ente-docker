@@ -40,5 +40,5 @@ jobs:
           image-name: ghcr.io/${{ github.repository }}/ente-server
           kubescape: true
           kubescape-upload-sarif: true
-          platform: ${{ matrix.platform }}
+          platforms: ${{ matrix.platform }}
           repository: ente-io/ente
