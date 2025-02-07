@@ -31,12 +31,17 @@ jobs:
             arch: arm64
             platform: linux/arm64
     steps:
+      - name: Prepare image repository
+        id: image-repo
+        run: |
+          echo "today=$(date +%Y%m%d)" >> $GITHUB_OUTPUT
       - name: Build docker
         uses: meysam81/build-docker@main
         with:
           context: ./server
           cosign: true
           image-extra-tags: |
+            ghcr.io/${{ github.repository }}/ente-server:${{ steps.image-repo.outputs.today }}-${{ matrix.arch }}
             ghcr.io/${{ github.repository }}/ente-server:${{ github.run_id }}-${{ matrix.arch }}
           image-name: ghcr.io/${{ github.repository }}/ente-server
           kubescape: true
@@ -58,6 +63,10 @@ jobs:
       - name: Prepare the Dockerfile
         run: |
           curl -sfL 'https://raw.githubusercontent.com/meysam81/ente-docker/refs/heads/main/web/Dockerfile' | tee /tmp/Dockerfile
+      - name: Prepare image repository
+        id: image-repo
+        run: |
+          echo "today=$(date +%Y%m%d)" >> $GITHUB_OUTPUT
       - name: Build docker
         uses: meysam81/build-docker@main
         with:
@@ -68,6 +77,7 @@ jobs:
           cosign: true
           dockerfile: /tmp/Dockerfile
           image-extra-tags: |
+            ghcr.io/${{ github.repository }}/ente-${{ matrix.target }}:${{ steps.image-repo.outputs.today }}
             ghcr.io/${{ github.repository }}/ente-${{ matrix.target }}:${{ github.run_id }}
           image-name: ghcr.io/${{ github.repository }}/ente-${{ matrix.target }}
           image-target: ${{ matrix.target }}
