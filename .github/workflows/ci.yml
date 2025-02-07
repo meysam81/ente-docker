@@ -73,6 +73,8 @@ jobs:
           build-args: |
             NEXT_PUBLIC_ENTE_ENDPOINT=${{ secrets.NEXT_PUBLIC_ENTE_ENDPOINT }}
             NEXT_PUBLIC_ENTE_ALBUMS_ENDPOINT=${{ secrets.NEXT_PUBLIC_ENTE_ALBUMS_ENDPOINT }}
+            NEXT_ENTE_PUBLIC_ACCOUNTS_ENDPOINT=${{ secrets.NEXT_ENTE_PUBLIC_ACCOUNTS_ENDPOINT }}
+            NEXT_PUBLIC_ENTE_FAMILY_URL=${{ secrets.NEXT_PUBLIC_ENTE_FAMILY_URL }}
           context: ./web
           cosign: true
           dockerfile: /tmp/Dockerfile
