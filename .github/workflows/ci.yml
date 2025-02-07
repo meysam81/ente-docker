@@ -37,7 +37,6 @@ jobs:
           context: ./server
           cosign: true
           image-extra-tags: |
-            ghcr.io/${{ github.repository }}/ente-server:${{ github.event.repository.pushed_at }}-${{ matrix.arch }}
             ghcr.io/${{ github.repository }}/ente-server:${{ github.run_id }}-${{ matrix.arch }}
           image-name: ghcr.io/${{ github.repository }}/ente-server
           kubescape: true
@@ -69,7 +68,6 @@ jobs:
           cosign: true
           dockerfile: /tmp/Dockerfile
           image-extra-tags: |
-            ghcr.io/${{ github.repository }}/ente-${{ matrix.target }}:${{ github.event.repository.pushed_at }}
             ghcr.io/${{ github.repository }}/ente-${{ matrix.target }}:${{ github.run_id }}
           image-name: ghcr.io/${{ github.repository }}/ente-${{ matrix.target }}
           image-target: ${{ matrix.target }}
