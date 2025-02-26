@@ -42,7 +42,6 @@ jobs:
           cosign: true
           image-extra-tags: |
             ghcr.io/${{ github.repository }}/ente-server:${{ steps.image-repo.outputs.today }}-${{ matrix.arch }}
-            ghcr.io/${{ github.repository }}/ente-server:${{ github.run_id }}-${{ matrix.arch }}
           image-name: ghcr.io/${{ github.repository }}/ente-server
           kubescape: true
           kubescape-upload-sarif: true
